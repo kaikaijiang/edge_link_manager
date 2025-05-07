@@ -1,6 +1,13 @@
 @echo off
 setlocal
 
+echo === Generating Flutter Windows ephemeral files ===
+flutter build windows --no-build
+IF %ERRORLEVEL% NEQ 0 (
+    echo ❌ flutter build windows --no-build failed!
+    exit /b %ERRORLEVEL%
+)
+
 echo === Cleaning previous Win32 build ===
 rmdir /s /q build\win32 2>nul
 mkdir build\win32

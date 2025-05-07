@@ -24,8 +24,6 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Generate plugin and CMake config files
-        run: flutter create --platforms=windows .
 
       - name: Run 32-bit build script
         shell: cmd

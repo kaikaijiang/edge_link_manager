@@ -24,17 +24,24 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
+      - name: Generate plugin and build config files
+        run: flutter create --platforms=windows .
+
       - name: Run 32-bit build script
         shell: cmd
         run: build_windows.bat
 
-      - name: List built files (debugging)
+      - name: 🔍 Find all built .exe files
         shell: cmd
-        run: dir build\win32\Release
+        run: dir /s /b build\*.exe
 
-      - name: Zip Win32 build
+      - name: List typical output folder
         shell: cmd
-        run: powershell Compress-Archive -Path build\win32\Release\* -DestinationPath win32-build.zip
+        run: dir build\windows\runner\Release
+
+      - name: Zip Win32 build output
+        shell: cmd
+        run: powershell Compress-Archive -Path build\windows\runner\Release\* -DestinationPath win32-build.zip
 
       - name: Upload zipped build
         uses: actions/upload-artifact@v4

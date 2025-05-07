@@ -22,6 +22,11 @@ echo === Step 5: CMake build ===
 cmake --build . --config Release
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 
+echo === Searching for output .exe in known locations ===
+dir .\Release
+dir .\bin\Release
+dir . /s /b *.exe
+
 echo === Step 6: List output ===
 dir .\Release
 

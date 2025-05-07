@@ -2,7 +2,7 @@ name: Build Windows 32-bit App
 
 on:
   push:
-    branches: [main]
+    branches: [main]  # Change if your default branch is different
   workflow_dispatch:
 
 jobs:
@@ -10,38 +10,27 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout source code
         uses: actions/checkout@v3
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.2'
+          flutter-version: '3.29.2'  # Set a known stable version
 
-      - name: Enable Windows desktop
+      - name: Enable Windows desktop support
         run: flutter config --enable-windows-desktop
 
-      - name: Get dependencies
+      - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Create build_win32.bat script
-        run: |
-          echo @echo off > build_win32.bat
-          echo rmdir /s /q build\win32 >> build_win32.bat
-          echo mkdir build\win32 >> build_win32.bat
-          echo cd build\win32 >> build_win32.bat
-          echo cmake ../../windows -G "Visual Studio 17 2022" -A Win32 -DCMAKE_BUILD_TYPE=Release >> build_win32.bat
-          echo IF %%ERRORLEVEL%% NEQ 0 (echo CMake generation failed! & exit /b %%ERRORLEVEL%%) >> build_win32.bat
-          echo cmake --build . --config Release >> build_win32.bat
-          echo IF %%ERRORLEVEL%% NEQ 0 (echo Build failed! & exit /b %%ERRORLEVEL%%) >> build_win32.bat
-          echo cd .. >> build_win32.bat
-          echo echo ✅ Build complete >> build_win32.bat
+      - name: Run 32-bit build script
+        shell: cmd
+        run: build_windows.bat
 
-      - name: Run build_win32.bat
-        run: build_win32.bat
-
-      - name: Upload 32-bit Windows build
+      - name: Upload Win32 build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: win32-build
           path: build/win32/Release/
+

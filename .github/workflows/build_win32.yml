@@ -31,10 +31,11 @@ jobs:
         shell: cmd
         run: build_windows.bat
 
-      - name: 🔍 Try to find .exe files (optional)
-	shell: cmd
-	continue-on-error: true
-	run: dir /s /b build\*.exe
+      - name: Try to find .exe files (optional)
+        shell: cmd
+        continue-on-error: true
+        run: dir /s /b build\*.exe
+
 
       - name: List typical output folder
         shell: cmd

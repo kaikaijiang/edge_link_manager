@@ -41,7 +41,7 @@ jobs:
         run: build_win32.bat
 
       - name: Upload 32-bit Windows build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: win32-build
           path: build/win32/Release/

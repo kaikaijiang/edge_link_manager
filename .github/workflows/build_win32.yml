@@ -28,9 +28,16 @@ jobs:
         shell: cmd
         run: build_windows.bat
 
-      - name: Upload Win32 build artifacts
+      - name: List built files (debugging)
+        shell: cmd
+        run: dir build\win32\Release
+
+      - name: Zip Win32 build
+        shell: cmd
+        run: powershell Compress-Archive -Path build\win32\Release\* -DestinationPath win32-build.zip
+
+      - name: Upload zipped build
         uses: actions/upload-artifact@v4
         with:
           name: win32-build
-          path: build/win32/Release/
-
+          path: win32-build.zip
